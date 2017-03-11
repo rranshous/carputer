@@ -1,0 +1,16 @@
+
+
+use sinknode to move data
+going to add some public key encryption so i can end-to-end encrypt the data from the carputer
+
+on carputer will have
+ usb camera
+ gps module
+
+usb camera
+ - can capture mjpeg video (.avi) which omxplayer can play
+ - capture from webcam using cvlc
+   ex: cvlc v4l2:///dev/video0:chroma=mjpg:width=1280:height=720 --sout=file/avi:/tmp/out.avi
+   ex: cvlc v4l2:///dev/video0:chroma=mjpg:width=1280:height=720 --sout=file/avi:- # goes to stdout
+   # 25fps 1280x720 60s ~> 280MB ; 1day = ~400GB
+   # 30fps 1920x1080 68s ~> 350MB ; 1day = ~500GB

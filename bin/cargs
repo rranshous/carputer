@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+HELP = '''cargs -- run command per chunk (1MB)
+echo "test" | cargs "cat"'''
+
+if ['-h', '--help'].include?(ARGV.first)
+  puts HELP
+  exit 0
+end
+
+CHUNK_SIZE = 1024 * 1000 # 1MB
+CMD = ARGV.shift
+puts "chunk size: #{CHUNK_SIZE}"
+puts "command: #{CMD}"
+
+loop do
+  data = STDIN.read(CHUNK_SIZE)
+  break if data.nil?
+  io = Kernel.open("|#{CMD}", 'w')
+  io.write(data)
+  io.close
+end

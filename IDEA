@@ -1,0 +1,17 @@
+carputer
+
+car-computer which acts as data collection brain in vehicle
+
+hardware:
+
+ industrial powered USB hub wired to battery - powers all the things, USB's all the things
+ raspberry pi 3b - brain
+ 7" rpi touchscreen - main interface
+ usb gps module
+ usb video camera - ELP wide lense camera
+ usb volume knob
+ usb LED matrix - custom
+
+uses datasink project to move data to home server
+
+end to end encryption of all data using public encryption gpg keys

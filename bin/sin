@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+HELP = '''sin -- periodically insert string in to stream (every 1MB)
+cat movie.avi | sin "\n"'''
+
+if ['-h', '--help'].include?(ARGV.first)
+  puts HELP
+  exit 0
+end
+
+CHUNK_SIZE = 1024 * 1000 # 1MB
+puts "chunk size: #{CHUNK_SIZE}"
+
+loop do
+  data = STDIN.read CHUNK_SIZE
+  break if data.nil?
+  STDOUT.write data
+  STDOUT.write "\n"
+end
