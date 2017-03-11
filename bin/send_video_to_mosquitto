@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+
+cvlc \
+  v4l2:///dev/video0:chroma=mjpg:width=1280:height=720 \
+  --sout=file/avi:- \
+| \
+cargs gpg --encrypt \
+| \
+mosquitto_pub --stdin-line -t level/32/video/dashcam -q 0 
+
+
