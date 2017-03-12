@@ -5,8 +5,6 @@ cvlc \
   v4l2:///dev/video0:chroma=mjpg:width=1280:height=720 \
   --sout=file/avi:- \
 | \
-cargs gpg --encrypt \
+cargs "(gpg --encrypt --recipient rranshous@gmail.com; echo)" \
 | \
 mosquitto_pub --stdin-line -t level/32/video/dashcam -q 0 
-
-
