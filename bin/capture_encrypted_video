@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# capture video, chunk in to 32MB segments,
+# from video device path (arg 1)
+# encrypt the video for (arg 3) gpg recipient
+# and save as chunks w/ epoch timestamps to (arg 2) local outdir
+# ex capture_encrypted_video /dev/video0 /tmp/ emailaddr@hostname.com
+
+export VIDEO_DEVICE_PATH=$1
+export OUTDIR=$2
+export RECIPIENT=$3
+
+cvlc v4l2://${VIDEO_DEVICE_PATH}:chroma=mjpg:width=1280:height=720 --sout=file/avi:- \
+  | cargs "gpg --encrypt -r \"\$RECIPIENT\" > /\$OUTDIR/\$(date +%s.%5N).gpg"

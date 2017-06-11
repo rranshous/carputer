@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-HELP = '''cargs -- run command per chunk (1MB)
+HELP = '''cargs -- run command per chunk (32MB)
 echo "test" | cargs "cat"'''
 
 if ['-h', '--help'].include?(ARGV.first)
@@ -8,10 +8,10 @@ if ['-h', '--help'].include?(ARGV.first)
   exit 0
 end
 
-CHUNK_SIZE = 1024 * 1000 # 1MB
+CHUNK_SIZE = 1024 * 32000 # 32MB
 CMD = ARGV.shift
-puts "chunk size: #{CHUNK_SIZE}"
-puts "command: #{CMD}"
+STDERR.puts "chunk size: #{CHUNK_SIZE}"
+STDERR.puts "command: #{CMD}"
 
 loop do
   data = STDIN.read(CHUNK_SIZE)
