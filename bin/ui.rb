@@ -3,6 +3,8 @@
 require_relative 'ui_helpers'
 require_relative 'ui_objs'
 
+REFRESH_SECS = 4
+
 OUT_PATH = ENV['OUT_PATH']
 if OUT_PATH.nil?
   puts "ERROR: missing env var OUT_PATH"
@@ -31,7 +33,7 @@ Shoes.app do
         b = background yellow
         i = image("notfound").click { booth.toggle(webcam) }
         p = para "status"
-        every 1 do
+        every REFRESH_SECS do
           b.remove
           if booth.recording?(webcam)
             f.prepend { b = background red }
