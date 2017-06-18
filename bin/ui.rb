@@ -28,20 +28,17 @@ Shoes.app do
   stack(margin: 12) do
     Helpers.webcams do |webcam|
       f = flow do
-        b = button(webcam.name).click { booth.toggle(webcam) }
+        b = background yellow
+        i = image("notfound").click { booth.toggle(webcam) }
         p = para "status"
-        i = image "notfound"
         every 1 do
+          b.remove
           if booth.recording?(webcam)
+            f.prepend { b = background red }
             p.text = "status: recording"
-            #f.background red
           else
+            f.prepend { b = background green }
             p.text = "status: --"
-            #f.background green
-          end
-        end
-        every 5 do
-          if !booth.recording?(webcam)
             camera.snapshot(webcam) do |thumbnail_path|
               i.path = thumbnail_path
             end
