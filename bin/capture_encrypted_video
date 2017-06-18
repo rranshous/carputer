@@ -6,6 +6,9 @@
 # and save as chunks w/ epoch timestamps to (arg 2) local outdir
 # ex capture_encrypted_video /dev/video0 /tmp/ emailaddr@hostname.com
 
+set -e
+set -o pipefail
+
 export VIDEO_DEVICE_PATH=$1
 export OUTDIR=$2
 export RECIPIENT=$3

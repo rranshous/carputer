@@ -1,20 +1,34 @@
 #!/usr/bin/env shoes
 
-video_path = "/tmp/1497225056.54754.gpg.mjpg"
-puts "Exists?: #{File.exists?(video_path)}"
+require_relative 'ui_helpers'
+require_relative 'ui_objs'
 
-Shoes.app :width => 408, :height => 346, :resizable => false do
-  background "#eee"
-  stack :margin => 4 do
-    puts "creating video"
-    @vid = video "http://oneinchmile.com/tmp/helen.mp4"
-    puts "done creatin video"
+OUT_PATH = ENV['OUT_PATH']
+
+def setup_booth
+  booth = Booth.new
+  target = Target.new OUT_PATH
+  puts "target: #{target}"
+  Helpers.webcams do |webcam|
+    puts "registering: #{webcam}"
+    booth.register webcam, target
   end
-  para "controls: ",
-    link("play")  { @vid.play }, ", ",
-    link("pause") { @vid.pause }, ", ",
-    link("stop")  { @vid.stop }, ", ",
-    link("hide")  { @vid.hide }, ", ",
-    link("show")  { @vid.show }, ", ",
-    link("+5 sec") { @vid.time += 5000 }
+  booth
 end
+
+booth = setup_booth
+
+Shoes.app do
+  background "#EEE"
+  stack(margin: 12) do
+    flow do
+      Helpers.webcams do |webcam|
+        button(webcam.name).click do
+          puts "button press #{webcam}"
+          booth.toggle(webcam)
+        end
+      end
+    end
+  end
+end
+
