@@ -25,24 +25,27 @@ end
 booth = setup_booth
 camera = Camera.new
 
-Shoes.app do
+Shoes.app("camera control", width: 400, height: 450, resizable: false) do
   background "#EEE"
-  stack(margin: 12) do
-    Helpers.webcams do |webcam|
-      f = flow do
-        b = background yellow
-        i = image("notfound").click { booth.toggle(webcam) }
-        p = para "status"
-        every REFRESH_SECS do
-          b.remove
-          if booth.recording?(webcam)
-            f.prepend { b = background red }
-            p.text = "status: recording"
-          else
-            f.prepend { b = background green }
-            p.text = "status: --"
-            camera.snapshot(webcam) do |thumbnail_path|
-              i.path = thumbnail_path
+  stack(margin: 3) do
+    flow do
+      Helpers.webcams do |webcam|
+        f = flow do
+          b = background yellow
+          i = image("notfound").click { booth.toggle(webcam) }
+          i.style(height: 200)
+          p = para "loading"
+          every REFRESH_SECS do
+            b.remove
+            if booth.recording?(webcam)
+              f.prepend { b = background red }
+              p.text = "RECORDING"
+            else
+              f.prepend { b = background green }
+              p.text = ""
+              camera.snapshot(webcam) do |thumbnail_path|
+                i.path = thumbnail_path
+              end
             end
           end
         end
