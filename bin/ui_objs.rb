@@ -110,6 +110,11 @@ class Booth
     recording(device).toggle
   end
 
+  def recording? device
+    log "checking recording"
+    recording(device).recording?
+  end
+
   def recording device
     recordings[device]
   end

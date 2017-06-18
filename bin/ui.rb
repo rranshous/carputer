@@ -21,11 +21,18 @@ booth = setup_booth
 Shoes.app do
   background "#EEE"
   stack(margin: 12) do
-    flow do
-      Helpers.webcams do |webcam|
-        button(webcam.name).click do
-          puts "button press #{webcam}"
-          booth.toggle(webcam)
+    Helpers.webcams do |webcam|
+      f = flow do
+        b = button(webcam.name).click { booth.toggle(webcam) }
+        p = para "status"
+        every 1 do
+          if booth.recording?(webcam)
+            p.text = "status: recording"
+            b.background red
+          else
+            p.text = "status: --"
+            b.background green
+          end
         end
       end
     end
