@@ -1,0 +1,7 @@
+
+requires:
+ - v4l support
+ - `streamer` tool
+ - shoesrb (in path)
+
+make sure to add the tools in `bin` to the PATH

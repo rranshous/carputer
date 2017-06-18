@@ -127,3 +127,28 @@ class Booth
     inspect
   end
 end
+
+class Camera
+  include Log, Error
+
+  def snapshot device
+    log "snapshot: #{device}"
+    temp do |tmp_path|
+      jpg_path = "#{tmp_path}.jpeg"
+      pid = Process.spawn command(device, jpg_path)
+      Process.wait(pid)
+      yield jpg_path
+    end
+  end
+
+  def command device, out_path
+    "streamer -c #{device.path} -o #{out_path}"
+  end
+
+  def temp
+    Dir.mktmpdir do |path|
+      log "temp dir path: #{path}"
+      yield File.join(path, Time.now.to_f.to_s)
+    end
+  end
+end

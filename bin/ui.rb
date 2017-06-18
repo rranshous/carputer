@@ -4,6 +4,10 @@ require_relative 'ui_helpers'
 require_relative 'ui_objs'
 
 OUT_PATH = ENV['OUT_PATH']
+if OUT_PATH.nil?
+  puts "ERROR: missing env var OUT_PATH"
+  exit 1
+end
 
 def setup_booth
   booth = Booth.new
@@ -17,6 +21,7 @@ def setup_booth
 end
 
 booth = setup_booth
+camera = Camera.new
 
 Shoes.app do
   background "#EEE"
@@ -25,17 +30,24 @@ Shoes.app do
       f = flow do
         b = button(webcam.name).click { booth.toggle(webcam) }
         p = para "status"
+        i = image "notfound"
         every 1 do
           if booth.recording?(webcam)
             p.text = "status: recording"
-            b.background red
+            #f.background red
           else
             p.text = "status: --"
-            b.background green
+            #f.background green
+          end
+        end
+        every 5 do
+          if !booth.recording?(webcam)
+            camera.snapshot(webcam) do |thumbnail_path|
+              i.path = thumbnail_path
+            end
           end
         end
       end
     end
   end
 end
-
