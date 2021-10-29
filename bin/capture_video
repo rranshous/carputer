@@ -3,7 +3,7 @@
 # capture video, chunk in to 32MB segments,
 # from video device path (arg 1)
 # and save as chunks w/ epoch timestamps to (arg 2) local outdir
-# ex capture_encrypted_video /dev/video0 /tmp/ emailaddr@hostname.com
+# ex capture_encrypted /dev/video0 /tmp/
 
 set -e
 set -o pipefail
@@ -11,5 +11,6 @@ set -o pipefail
 export VIDEO_DEVICE_PATH=$1
 export OUTDIR=$2
 
+# ffmpeg -i ${VIDEO_DEVICE_PATH} -vcodec libx264 -q:v 2 -f mpegts - \
 cvlc v4l2://${VIDEO_DEVICE_PATH}:chroma=mjpg:width=1280:height=720 --sout=file/avi:- \
   | cargs "cat > /\$OUTDIR/\$(date +%s.%5N)"
