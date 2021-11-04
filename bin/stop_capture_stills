@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker ps | grep carputer_capture_stills | cut -d' ' -f1 | xargs docker stop
