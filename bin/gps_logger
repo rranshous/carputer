@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -x
+
+# captures gps receiver data in jsonl data file
+OUTDIR=$1
+CONTAINER_NAME=gps_logger
+
+docker rm ${CONTAINER_NAME} || true
+docker run --name ${CONTAINER_NAME} \
+	-d --restart always \
+	--link gpsd \
+	-v ${OUTDIR}:/data \
+	rranshous/carputer _gps_logger /data/

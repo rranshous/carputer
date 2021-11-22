@@ -13,6 +13,8 @@ export VIDEO_DEVICE_PATH=$1
 export OUTDIR=$2
 
 mkdir -p ${OUTDIR}
+echo "capturing stills for ${VIDEO_DEVICE_PATH}"
 
 ffmpeg -f v4l2 -i "${VIDEO_DEVICE_PATH}" -vf fps=1 -q:v 2 -strftime 1 "${OUTDIR}/%Y_%m_%d_%H_%M.%s.jpg"
+#ffmpeg -f v4l2 -input_format mjpeg -video_size 1920x1080 -i "${VIDEO_DEVICE_PATH}" -vf fps=1 -q:v 2 -strftime 1 "${OUTDIR}/%Y_%m_%d_%H_%M.%s.jpg"
 

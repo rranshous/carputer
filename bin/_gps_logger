@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -x
+
+OUTDIR=$1
+FILENAME=$(date +%s.%5N).jsonl
+
+echo "Starting gps logging to ${OUTDIR}/${FILENAME}"
+
+gpspipe -w gpsd >> ${OUTDIR}/${FILENAME}
+

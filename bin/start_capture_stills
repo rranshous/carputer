@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 OUTDIR=$1
 
 for DEVICE_NAME in `ls /dev/ | grep video`

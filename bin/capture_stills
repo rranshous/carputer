@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -x
 
 # uses the _capture_stills script w/in docker container
 
@@ -8,8 +7,12 @@ OUTDIR=$2
 VIDEO_NAME=`basename ${VIDEO_DEVICE_PATH}`
 CONTAINER_NAME=carputer_capture_stills_${VIDEO_NAME}
 
+echo "checking ${VIDEO_NAME}"
+
 # check if it's a real video device
 ffprobe -v 8 ${VIDEO_DEVICE_PATH} || exit 1
+
+echo "starting capture stills for ${VIDEO_NAME} to ${OUTDIR}"
 
 # remove the old container + start a new one
 docker rm ${CONTAINER_NAME} || true
