@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -x
+
+DATADIR=$1
+OUTFILE=$2
+UNIQUE=`date +%s`
+FILELIST=/tmp/$UNIQUE.txt
+
+# create a list of the files, which have data
+find $DATADIR -maxdepth 1 -type f -size +1k -printf "%f\n" | \
+  sort -g | \
+  xargs -I{} echo "file '$DATADIR/{}'" > $FILELIST
+
+# fire up ffmpeg to create video
+ffmpeg -f concat -safe 0 -i $FILELIST \
+       -c:v libx264 -vf fps=25 -pix_fmt yuv420p \
+       $OUTFILE
+
+# remove the file list
+rm $FILELIST
